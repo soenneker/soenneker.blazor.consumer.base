@@ -90,7 +90,7 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Update<TResponse>(string id, object request, string? overrideUri = null, bool allowAnonymous = false,
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Update<TResponse>(string? id, object request, string? overrideUri = null, bool allowAnonymous = false,
         CancellationToken cancellationToken = default)
     {
         request.ThrowIfNull();
@@ -104,7 +104,7 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Delete<TResponse>(string id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Delete<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
         var options = new RequestOptions { Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
@@ -115,10 +115,10 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Upload<TResponse>(Stream stream, string fileName, string? overrideUri = null, bool allowAnonymous = false,
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Upload<TResponse>(string? id, Stream stream, string fileName, string? overrideUri = null, bool allowAnonymous = false,
         CancellationToken cancellationToken = default)
     {
-        string uri = overrideUri ?? PrefixUri;
+        string uri = overrideUri ?? $"{PrefixUri}/{id}/upload";
         var options = new RequestUploadOptions { Uri = uri, Stream = stream, FileName = fileName, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
 
         HttpResponseMessage message = await ApiClient.Upload(options, cancellationToken).NoSync();
