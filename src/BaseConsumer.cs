@@ -77,7 +77,6 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    [Pure]
     public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Create<TResponse>(object request, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         request.ThrowIfNull();
@@ -91,7 +90,6 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    [Pure]
     public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Update<TResponse>(string id, object request, string? overrideUri = null, bool allowAnonymous = false,
         CancellationToken cancellationToken = default)
     {
@@ -106,7 +104,6 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    [Pure]
     public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Delete<TResponse>(string id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
@@ -118,7 +115,6 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    [Pure]
     public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Upload<TResponse>(Stream stream, string fileName, string? overrideUri = null, bool allowAnonymous = false,
         CancellationToken cancellationToken = default)
     {
