@@ -20,7 +20,7 @@ public interface IBaseConsumer
     /// <param name="allowAnonymous">Indicates whether anonymous access is allowed.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A tuple containing the response and any problem details.</returns>
-    ValueTask<(TResponse? response, ProblemDetailsDto? details)> Get<TResponse>(string id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default);
+    ValueTask<(TResponse? response, ProblemDetailsDto? details)> Get<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a single resource by ID asynchronously using Task.
@@ -31,7 +31,7 @@ public interface IBaseConsumer
     /// <param name="allowAnonymous">Indicates whether anonymous access is allowed.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A tuple containing the response and any problem details.</returns>
-    Task<(TResponse? response, ProblemDetailsDto? details)> GetTask<TResponse>(string id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default);
+    Task<(TResponse? response, ProblemDetailsDto? details)> GetTask<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all resources asynchronously.

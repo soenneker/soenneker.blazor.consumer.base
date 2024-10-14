@@ -34,7 +34,7 @@ public class BaseConsumer : IBaseConsumer
     }
 
     [Pure]
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Get<TResponse>(string id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Get<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
         var options = new RequestOptions { Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
@@ -45,7 +45,7 @@ public class BaseConsumer : IBaseConsumer
     }
 
     [Pure]
-    public virtual async Task<(TResponse? response, ProblemDetailsDto? details)> GetTask<TResponse>(string id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
+    public virtual async Task<(TResponse? response, ProblemDetailsDto? details)> GetTask<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
         var options = new RequestOptions { Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
