@@ -33,7 +33,6 @@ public class BaseConsumer : IBaseConsumer
         PrefixUri = prefixUri;
     }
 
-    [Pure]
     public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Get<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
@@ -44,7 +43,6 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    [Pure]
     public virtual async Task<(TResponse? response, ProblemDetailsDto? details)> GetTask<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
@@ -55,7 +53,6 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    [Pure]
     public virtual async ValueTask<(List<TResponse>? response, ProblemDetailsDto? details)> GetAll<TResponse>(string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? PrefixUri;
@@ -66,7 +63,6 @@ public class BaseConsumer : IBaseConsumer
         return response;
     }
 
-    [Pure]
     public virtual async Task<(List<TResponse>? response, ProblemDetailsDto? details)> GetAllTask<TResponse>(string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? PrefixUri;

@@ -10,4 +10,10 @@ public class BaseConsumerTests : FixturedUnitTest
     public BaseConsumerTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
     {
     }
+
+    [Fact]
+    public void Default()
+    {
+
+    }
 }
