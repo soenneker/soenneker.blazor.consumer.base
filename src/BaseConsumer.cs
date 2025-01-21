@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
@@ -33,57 +32,57 @@ public class BaseConsumer : IBaseConsumer
         PrefixUri = prefixUri;
     }
 
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Get<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Get<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false,
+        CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
-        var options = new RequestOptions { Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
+        var options = new RequestOptions {Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
 
         HttpResponseMessage message = await ApiClient.Get(options, cancellationToken: cancellationToken).NoSync();
-        (TResponse?, ProblemDetailsDto?) response = await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
-        return response;
+        return await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
     }
 
-    public virtual async Task<(TResponse? response, ProblemDetailsDto? details)> GetTask<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
+    public virtual async Task<(TResponse? response, ProblemDetailsDto? details)> GetTask<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false,
+        CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
-        var options = new RequestOptions { Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
+        var options = new RequestOptions {Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
 
         HttpResponseMessage message = await ApiClient.Get(options, cancellationToken: cancellationToken).NoSync();
-        (TResponse?, ProblemDetailsDto?) response = await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
-        return response;
+        return await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
     }
 
-    public virtual async ValueTask<(List<TResponse>? response, ProblemDetailsDto? details)> GetAll<TResponse>(string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
+    public virtual async ValueTask<(List<TResponse>? response, ProblemDetailsDto? details)> GetAll<TResponse>(string? overrideUri = null, bool allowAnonymous = false,
+        CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? PrefixUri;
-        var options = new RequestOptions { Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
+        var options = new RequestOptions {Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
 
         HttpResponseMessage message = await ApiClient.Get(options, cancellationToken: cancellationToken).NoSync();
-        (List<TResponse>?, ProblemDetailsDto?) response = await message.ToWithDetails<List<TResponse>>(Logger, cancellationToken).NoSync();
-        return response;
+        return await message.ToWithDetails<List<TResponse>>(Logger, cancellationToken).NoSync();
     }
 
-    public virtual async Task<(List<TResponse>? response, ProblemDetailsDto? details)> GetAllTask<TResponse>(string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
+    public virtual async Task<(List<TResponse>? response, ProblemDetailsDto? details)> GetAllTask<TResponse>(string? overrideUri = null, bool allowAnonymous = false,
+        CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? PrefixUri;
-        var options = new RequestOptions { Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
+        var options = new RequestOptions {Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
 
         HttpResponseMessage message = await ApiClient.Get(options, cancellationToken: cancellationToken).NoSync();
-        (List<TResponse>?, ProblemDetailsDto?) response = await message.ToWithDetails<List<TResponse>>(Logger, cancellationToken).NoSync();
-        return response;
+        return await message.ToWithDetails<List<TResponse>>(Logger, cancellationToken).NoSync();
     }
 
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Create<TResponse>(object request, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Create<TResponse>(object request, string? overrideUri = null, bool allowAnonymous = false,
+        CancellationToken cancellationToken = default)
     {
         request.ThrowIfNull();
 
         string uri = overrideUri ?? PrefixUri;
-        var options = new RequestOptions { Uri = uri, Object = request, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
+        var options = new RequestOptions {Uri = uri, Object = request, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
 
         HttpResponseMessage message = await ApiClient.Post(options, cancellationToken).NoSync();
 
-        (TResponse?, ProblemDetailsDto?) response = await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
-        return response;
+        return await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
     }
 
     public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Update<TResponse>(string? id, object request, string? overrideUri = null, bool allowAnonymous = false,
@@ -92,33 +91,32 @@ public class BaseConsumer : IBaseConsumer
         request.ThrowIfNull();
 
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
-        var options = new RequestOptions { Uri = uri, Object = request, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
+        var options = new RequestOptions {Uri = uri, Object = request, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
 
         HttpResponseMessage message = await ApiClient.Put(options, cancellationToken).NoSync();
 
-        (TResponse?, ProblemDetailsDto?) response = await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
-        return response;
+        return await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
     }
 
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Delete<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false, CancellationToken cancellationToken = default)
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Delete<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false,
+        CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}";
-        var options = new RequestOptions { Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
+        var options = new RequestOptions {Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
 
         HttpResponseMessage message = await ApiClient.Delete(options, cancellationToken).NoSync();
 
-        (TResponse?, ProblemDetailsDto?) response = await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
-        return response;
+        return await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
     }
 
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Upload<TResponse>(string? id, Stream stream, string fileName, string? overrideUri = null, bool allowAnonymous = false,
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Upload<TResponse>(string? id, Stream stream, string fileName, string? overrideUri = null,
+        bool allowAnonymous = false,
         CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}/upload";
-        var options = new RequestUploadOptions { Uri = uri, Stream = stream, FileName = fileName, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse };
+        var options = new RequestUploadOptions {Uri = uri, Stream = stream, FileName = fileName, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
 
         HttpResponseMessage message = await ApiClient.Upload(options, cancellationToken).NoSync();
-        (TResponse?, ProblemDetailsDto?) response = await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
-        return response;
+        return await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
     }
 }
