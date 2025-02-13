@@ -42,16 +42,6 @@ public class BaseConsumer : IBaseConsumer
         return await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
     }
 
-    public virtual async Task<(TResponse? response, ProblemDetailsDto? details)> GetTask<TResponse>(string? id, string? overrideUri = null, bool allowAnonymous = false,
-        CancellationToken cancellationToken = default)
-    {
-        string uri = overrideUri ?? $"{PrefixUri}/{id}";
-        var options = new RequestOptions {Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
-
-        HttpResponseMessage message = await ApiClient.Get(options, cancellationToken: cancellationToken).NoSync();
-        return await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
-    }
-
     public virtual async ValueTask<(List<TResponse>? response, ProblemDetailsDto? details)> GetAll<TResponse>(string? overrideUri = null, bool allowAnonymous = false,
         CancellationToken cancellationToken = default)
     {
@@ -62,17 +52,13 @@ public class BaseConsumer : IBaseConsumer
         return await message.ToWithDetails<List<TResponse>>(Logger, cancellationToken).NoSync();
     }
 
-    public virtual async Task<(List<TResponse>? response, ProblemDetailsDto? details)> GetAllTask<TResponse>(string? overrideUri = null, bool allowAnonymous = false,
+    public virtual ValueTask<(TResponse? response, ProblemDetailsDto? details)> Create<TResponse>(object request, string? overrideUri = null, bool allowAnonymous = false,
         CancellationToken cancellationToken = default)
     {
-        string uri = overrideUri ?? PrefixUri;
-        var options = new RequestOptions {Uri = uri, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
-
-        HttpResponseMessage message = await ApiClient.Get(options, cancellationToken: cancellationToken).NoSync();
-        return await message.ToWithDetails<List<TResponse>>(Logger, cancellationToken).NoSync();
+        return Post<TResponse>(request, overrideUri, allowAnonymous, cancellationToken);
     }
 
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Create<TResponse>(object request, string? overrideUri = null, bool allowAnonymous = false,
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Post<TResponse>(object request, string? overrideUri = null, bool allowAnonymous = false,
         CancellationToken cancellationToken = default)
     {
         request.ThrowIfNull();
@@ -85,7 +71,13 @@ public class BaseConsumer : IBaseConsumer
         return await message.ToWithDetails<TResponse>(Logger, cancellationToken).NoSync();
     }
 
-    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Update<TResponse>(string? id, object request, string? overrideUri = null, bool allowAnonymous = false,
+    public virtual ValueTask<(TResponse? response, ProblemDetailsDto? details)> Update<TResponse>(string? id, object request, string? overrideUri = null, bool allowAnonymous = false,
+        CancellationToken cancellationToken = default)
+    {
+        return Put<TResponse>(id, request, overrideUri, allowAnonymous, cancellationToken);
+    }
+
+    public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Put<TResponse>(string? id, object request, string? overrideUri = null, bool allowAnonymous = false,
         CancellationToken cancellationToken = default)
     {
         request.ThrowIfNull();
@@ -110,8 +102,7 @@ public class BaseConsumer : IBaseConsumer
     }
 
     public virtual async ValueTask<(TResponse? response, ProblemDetailsDto? details)> Upload<TResponse>(string? id, Stream stream, string fileName, string? overrideUri = null,
-        bool allowAnonymous = false,
-        CancellationToken cancellationToken = default)
+        bool allowAnonymous = false, CancellationToken cancellationToken = default)
     {
         string uri = overrideUri ?? $"{PrefixUri}/{id}/upload";
         var options = new RequestUploadOptions {Uri = uri, Stream = stream, FileName = fileName, AllowAnonymous = allowAnonymous, LogRequest = LogRequest, LogResponse = LogResponse};
